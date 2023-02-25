@@ -1,6 +1,6 @@
 \ 0jump
-0000 043A           BRANCH main 
-0002 043A           BRANCH main 
+0000 0438           BRANCH main 
+0002 0438           BRANCH main 
 \ depth
 0004 6E81           ALU $6E81 
 0006 80FF           LIT $FF 
@@ -1304,18 +1304,18 @@
 086A E808           LIT $6808 
 086C 7C0C           ALU $7C0C 
 \ sumaf
-086E 6180           ALU $6180 
-0870 6203           ALU $6203 
-0872 720F           ALU $720F 
+086E 720F           ALU $720F 
 \ main
-0874 8005           LIT $5 
-0876 8003           LIT $3 
-0878 440E           CALL multiplicar 
+0870 800A           LIT $A 
+0872 8005           LIT $5 
+0874 8002           LIT $2 
+0876 4073           CALL - 
+0878 6203           ALU $6203 
 087A 8002           LIT $2 
-087C 040E           BRANCH multiplicar 
-087E FFFF           LIT $7FFF 
-0880 FFFF           LIT $7FFF 
-0882 FFFF           LIT $7FFF 
+087C 4425           CALL dividir 
+087E 8002           LIT $2 
+0880 440E           CALL multiplicar 
+0882 02D6           BRANCH emit-uart 
 0884 FFFF           LIT $7FFF 
 0886 FFFF           LIT $7FFF 
 0888 FFFF           LIT $7FFF 

@@ -39,18 +39,21 @@ div_c @
 ;
 
 : sumaf
-swap
-+
 +
 ;
 
 : main 
 
-d# 5  
-d# 3  
-multiplicar
+d# 10  
+d# 5 
+d# 2
+-
++
+d# 2
+dividir  
 d# 2
 multiplicar
+emit-uart
   
 
 
