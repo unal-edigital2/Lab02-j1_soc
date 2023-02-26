@@ -44,9 +44,10 @@ clean:
 	rm -rf $(BUILD_DIR) 
 
 iversim: build/project
-	cd $(BUILD_DIR) && $(IVERILOG) -gno-io-range-error -o $(DESIGN)_TB.vvp $(VINCDIR) $(SRC) $(SIM_SRC) -s $(DESIGN)_TB
+	cd $(BUILD_DIR) && $(IVERILOG) -gno-io-range-error -o $(DESIGN)_TB.vvp $(VINCDIR) $(SRC) $(SIM_SRC) -s $(DESIGN)_TB 
 	vvp $(BUILD_DIR)/$(DESIGN)_TB.vvp; 
 	gtkwave $(BUILD_DIR)/$(DESIGN)_TB.vcd&
+
 program: $(DESIGN).bit        
 	djtgcfg init -d $(TARJETA)
 	djtgcfg prog -d $(TARJETA) -i 0 -f $(BUILD_DIR)/$(DESIGN).bit

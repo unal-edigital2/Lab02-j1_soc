@@ -3,3 +3,4 @@ build_vivado
 *.runs *.sdk *.srcs *.cache 
 *.hw *.xpr 
 *.log *.jou *.cache *.rpt *.dcp
+*.vvp
