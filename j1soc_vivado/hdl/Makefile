@@ -26,7 +26,7 @@ SRC     = ../$(DESIGN).v ../j1.v ../dpram.v \
 		  $(UART)/uart.v $(UART)/peripheral_uart.v \
 		  $(dp_RAM)/dpRAM_interface.v
 
-SIM_SRC = $(DESIGN)_TB.v
+SIM_SRC = ../$(DESIGN)_TB.v
 
 all: $(DESIGN).bit
 
@@ -43,11 +43,10 @@ clean:
 	rm -rf *.log *.jou *.cache *.hw .Xil *.rpt *.dcp
 	rm -rf $(BUILD_DIR) 
 
-iversim: 
-	$(IVERILOG) -gno-io-range-error -o $(TARGET)_TB.vvp $(VINCDIR) $(SRC) $(SIM_SRC) -s $(TARGET)_TB
-	vvp $(TARGET)_TB.vvp; 
-	gtkwave $(TARGET)_TB.vcd&
-
+iversim: build/project
+	cd $(BUILD_DIR) && $(IVERILOG) -gno-io-range-error -o $(DESIGN)_TB.vvp $(VINCDIR) $(SRC) $(SIM_SRC) -s $(DESIGN)_TB
+	vvp $(BUILD_DIR)/$(DESIGN)_TB.vvp; 
+	gtkwave $(BUILD_DIR)/$(DESIGN)_TB.vcd&
 program: $(DESIGN).bit        
 	djtgcfg init -d $(TARJETA)
 	djtgcfg prog -d $(TARJETA) -i 0 -f $(BUILD_DIR)/$(DESIGN).bit
