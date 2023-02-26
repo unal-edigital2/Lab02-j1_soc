@@ -9,7 +9,7 @@ reg sys_clk_i, sys_rst_i;
 wire  uart_tx, ledout; 
 
 j1soc uut (
-	 uart_tx, ledout, sys_clk_i, sys_rst_i
+	 uart_tx,uart_rx, ledout, sys_clk_i, sys_rst_i
 );
 
 initial begin

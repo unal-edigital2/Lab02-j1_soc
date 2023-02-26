@@ -39,7 +39,7 @@ $(DESIGN).bit: build/project
 
 clean:
 	rm -rf $(DESIGN).runs $(DESIGN).sdk $(DESIGN).srcs $(DESIGN).cache 
-	rm -rf $(DESIGN).hw $(DESIGN).xpr 
+	rm -rf $(DESIGN).hw $(DESIGN).xpr $(DESIGN)
 	rm -rf *.log *.jou *.cache *.hw .Xil *.rpt *.dcp
 	rm -rf $(BUILD_DIR) 
 
