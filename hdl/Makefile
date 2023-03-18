@@ -2,7 +2,7 @@ DESIGN          = j1soc
 PINS            = $(DESIGN).xdc
 DEVICE          = xc7a100t-1csg324
 TOP_MODULE 		= j1soc
-TARJETA			= nexys4
+TARJETA			= Nexys4
 VIVADO_VERSION 	= 2021.1
 VIVADO_BIN   	= /tools/Xilinx/Vivado/2020.1/bin/vivado
 VIVADO_SYNTH 	= synthesis_vivado.tcl
@@ -48,7 +48,7 @@ iversim: build/project
 	vvp $(BUILD_DIR)/$(DESIGN)_TB.vvp; 
 	gtkwave $(BUILD_DIR)/$(DESIGN)_TB.vcd&
 
-program: $(DESIGN).bit        
+program:       
 	djtgcfg init -d $(TARJETA)
 	djtgcfg prog -d $(TARJETA) -i 0 -f $(BUILD_DIR)/$(DESIGN).bit
 

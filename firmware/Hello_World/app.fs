@@ -19,24 +19,12 @@ div_c @
 ;
 
 : main 
+s" Hola! Inicio de programa en el procesador J1!" type-uart
 
-d# 10  
-d# 5 
 d# 2
--
-+
 d# 2
 dividir  
 d# 2
 multiplicar
 emit-uart
-  
 ;
-
-
-
-
-
-
-
-

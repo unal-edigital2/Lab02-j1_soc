@@ -37,14 +37,18 @@ cleanall: clean
 #
 
 $(TARGET).json: $(SRC)
-	yosys -p "verilog_defaults -push; verilog_defaults -add -defer; read_verilog $(SRC); verilog_defaults -pop; attrmap -tocase keep -imap keep="true" keep=1 -imap keep="false" keep=0 -remove keep=0; synth_ecp5 -top $(TARGET); write_json $@" -l ${TARGET}.rpt
+	yosys -q -p "synth_ice40 -json $(TARGET).json" ${SRC}
+
 
 $(TARGET)_out.config: $(TARGET).json
-#	nextpnr-ecp5 --json $< --lpf $(TARGET).lpf --textcfg $@ --25k --package CABGA256 --speed 6  --timing-allow-fail --seed 1 
-	nextpnr-ecp5 --json $< --lpf $(TARGET).lpf --textcfg $@ --25k --package CABGA381 --speed 6  --timing-allow-fail --seed 1 
+	nextpnr-ice40 --freq 64 --hx8k --package tq144:4k --json $(TARGET).json --pcf $(TARGET).pcf --asc $(TARGET).asc --opt-timing --placer heap
+
+bin/toplevel.asc : ${PCF_FILE} bin/toplevel.json
+	nextpnr-ice40 --freq 64 --hx8k --package tq144:4k --json bin/toplevel.json --pcf ${PCF_FILE} --asc bin/toplevel.asc --opt-timing --placer heap
 
 $(TARGET).bit: $(TARGET)_out.config
-	ecppack --bootaddr 0 --compress $< --svf ${TARGET}.svf --bit $@
+	icepack $(TARGET).asc $(TARGET).bin
+
 
 ${TARGET}.svf : ${TARGET}.bit
 
@@ -58,5 +62,6 @@ iversim:
 	gtkwave $(TARGET)_TB.vcd&
 
 configure: ${TARGET}.bit
-#	sudo openFPGALoader -b colorlight-ft232rl -m ${TARGET}.bit 
-	sudo openFPGALoader -c cmsisdap -m ${TARGET}.bit 
+	stty -F /dev/ttyACM0 raw
+	cat bin/toplevel.bin >/dev/ttyACM0
+

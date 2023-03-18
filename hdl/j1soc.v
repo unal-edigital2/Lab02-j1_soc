@@ -1,7 +1,5 @@
 module j1soc#(
-      parameter   bootram_file     = "../firmware/Hello_World/j1.mem",
-      parameter   clk_freq         = 25000000,
-      parameter   uart_baud_rate   = 115200
+      parameter   bootram_file     = "../firmware/Hello_World/j1.mem"
 )(
    uart_tx, uart_rx, ledout,
    sys_clk_i, sys_rst_i
@@ -26,7 +24,7 @@ module j1soc#(
   (.bootram_file(bootram_file)
   ) cpu0(
     sys_clk_i, 
-    sys_rst_i, 
+    ~sys_rst_i, 
     j1_io_din, 
     j1_io_rd, 
     j1_io_wr, 
@@ -37,7 +35,7 @@ module j1soc#(
   peripheral_mult  
     per_m (
       .clk(sys_clk_i), 
-      .rst(sys_rst_i), 
+      .rst(~sys_rst_i), 
       .d_in(j1_io_dout), 
       .cs(cs[1]), 
       .addr(j1_io_addr[3:0]), 
@@ -49,7 +47,7 @@ module j1soc#(
   peripheral_div  
     per_d (
       .clk(sys_clk_i), 
-      .rst(sys_rst_i), 
+      .rst(~sys_rst_i), 
       .d_in(j1_io_dout), 
       .cs(cs[2]), 
       .addr(j1_io_addr[3:0]), 
@@ -58,12 +56,10 @@ module j1soc#(
       .d_out(div_dout)
     );
 
-  peripheral_uart #(
-     .clk_freq( clk_freq        ),
-     .baud(     uart_baud_rate  )
-   ) per_u(
+  peripheral_uart 
+    per_u(
      .clk(sys_clk_i), 
-     .rst(sys_rst_i), 
+     .rst(~sys_rst_i), 
      .d_in(j1_io_dout), 
      .cs(cs[3]), 
      .addr(j1_io_addr[3:0]), 
@@ -71,7 +67,6 @@ module j1soc#(
      .wr(j1_io_wr), 
      .d_out(uart_dout), 
      .uart_tx(uart_tx), 
-     .uart_rx(uart_rx), 
      .ledout(ledout)
    );
 
